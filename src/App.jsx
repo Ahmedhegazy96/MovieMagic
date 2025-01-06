@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+
 import Box from "./components/Box";
 import Footer from "./components/Footer";
 import Main from "./components/Main";
@@ -17,9 +24,9 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [showDetails, setShowDetails] = useState(false);
 
   const [selectedId, setSelectedId] = useState(null);
+  const navigate = useNavigate();
 
   // const [showSearch, setShowSearch] = useState(false);
 
@@ -68,53 +75,46 @@ function App() {
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
     console.log(selectedId);
-
-    setShowDetails(true);
+    navigate(`/movie/${id}`);
   }
   function handleCloseMovie() {
     setSelectedId(null);
-    setShowDetails(false);
+
+    navigate(-1);
   }
-  // function handleSearch() {
-  //   setQuery(query);
-  //   setShowSearch(true);
-  // }
+  function handleSearch(newQuery) {
+    setQuery(query === newQuery ? "" : newQuery);
+    navigate("/search");
+  }
 
   return (
     <div>
       <NavBar>
-        <SearchBar query={query} setQuery={setQuery} />
+        <SearchBar query={query} setQuery={handleSearch} />
       </NavBar>
-      {query ? (
-        <Main>
-          <Box className="">
-            <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
-          </Box>
-          {showDetails && selectedId && (
-            <Box>
-              <MovieDetails
-                selectedId={selectedId}
-                onCloseMovie={handleCloseMovie}
-              />
-            </Box>
-          )}
-        </Main>
-      ) : (
-        <Main>
-          <Box>
+      <Routes>
+        <Route
+          path="/"
+          element={
             <SlickSlider movies={movies} onSelectMovie={handleSelectMovie} />
-          </Box>
-          {showDetails && selectedId && (
-            <Box>
-              <MovieDetails
-                selectedId={selectedId}
-                onCloseMovie={handleCloseMovie}
-              />
-            </Box>
-          )}
-        </Main>
-      )}
-
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
+          }
+        />
+        <Route
+          path="/movie/:id"
+          element={
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
+          }
+        />
+      </Routes>
       <Footer />
     </div>
   );

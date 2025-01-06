@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useKey } from "../hooks/useKey";
 import Loader from "./Loader";
+import Box from "./Box";
 
 const KEY = "cad125ee";
 
@@ -66,37 +67,39 @@ export default function MovieDetails({ selectedId, onCloseMovie }) {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="details">
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <header>
-            <button className="btn-back" onClick={onCloseMovie}>
-              &larr;
-            </button>
-            <img src={poster} alt={`Poster of ${selectedMovie}`} />
-            <div className="details-overview">
-              <h2>{title}</h2>
+    <Box>
+      <div className="details">
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <header>
+              <button className="btn-back" onClick={onCloseMovie}>
+                &larr;
+              </button>
+              <img src={poster} alt={`Poster of ${selectedMovie}`} />
+              <div className="details-overview">
+                <h2>{title}</h2>
+                <p>
+                  {released} &bull; {runtime}
+                </p>
+                <p>{genre}</p>
+                <p>
+                  <span>⭐️</span>
+                  {imdbRating} IMDB rating
+                </p>
+              </div>
+            </header>
+            <section>
               <p>
-                {released} &bull; {runtime}
+                <em>{plot}</em>
               </p>
-              <p>{genre}</p>
-              <p>
-                <span>⭐️</span>
-                {imdbRating} IMDB rating
-              </p>
-            </div>
-          </header>
-          <section>
-            <p>
-              <em>{plot}</em>
-            </p>
-            <p>Starring {actors}</p>
-            <p>Directed by {director}</p>
-          </section>
-        </>
-      )}
-    </div>
+              <p>Starring {actors}</p>
+              <p>Directed by {director}</p>
+            </section>
+          </>
+        )}
+      </div>
+    </Box>
   );
 }

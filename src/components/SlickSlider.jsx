@@ -4,6 +4,7 @@ import "./SlickSlider.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Movie from "./Movie";
+import Box from "./Box";
 
 export default function SlickSlider({ onSelectMovie }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -45,27 +46,14 @@ export default function SlickSlider({ onSelectMovie }) {
   const currentMovie = movies[currentSlide] || {};
 
   return (
-    <div className="slider-container">
-      {/* {currentMovie && (
-        <div className="current-movie-info">
-          <div className="current-movie-poster-container">
-            <img
-              src={currentMovie.Poster}
-              alt={currentMovie.Title}
-              className="current-movie-poster"
-            />
-            <div className="current-movie-title">{currentMovie.Title}</div>
-          </div>
-        </div>
-      )} */}
-      <h1 className="slider-text">Trending Movies</h1>
-      <span className="slider-underline"></span>
-
-      <Slider {...settings}>
-        {movies.map((movie, index) => (
-          <Movie movie={movie} onSelectMovie={onSelectMovie} key={index} />
-        ))}
-      </Slider>
-    </div>
+    <Box>
+      <div className="slider-container">
+        <Slider {...settings}>
+          {movies.map((movie, index) => (
+            <Movie movie={movie} onSelectMovie={onSelectMovie} key={index} />
+          ))}
+        </Slider>
+      </div>
+    </Box>
   );
 }
