@@ -17,6 +17,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
 
   const [selectedId, setSelectedId] = useState(null);
 
@@ -67,10 +68,12 @@ function App() {
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
     console.log(selectedId);
+
+    setShowDetails(true);
   }
   function handleCloseMovie() {
     setSelectedId(null);
-    // setShowDetails(false);
+    setShowDetails(false);
   }
   // function handleSearch() {
   //   setQuery(query);
@@ -82,12 +85,26 @@ function App() {
       <NavBar>
         <SearchBar query={query} setQuery={setQuery} />
       </NavBar>
-      {query && (
+      {query ? (
         <Main>
-          <Box>
+          <Box className="">
             <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
           </Box>
-          {selectedId && (
+          {showDetails && selectedId && (
+            <Box>
+              <MovieDetails
+                selectedId={selectedId}
+                onCloseMovie={handleCloseMovie}
+              />
+            </Box>
+          )}
+        </Main>
+      ) : (
+        <Main>
+          <Box>
+            <SlickSlider movies={movies} onSelectMovie={handleSelectMovie} />
+          </Box>
+          {showDetails && selectedId && (
             <Box>
               <MovieDetails
                 selectedId={selectedId}
@@ -97,8 +114,6 @@ function App() {
           )}
         </Main>
       )}
-
-      <SlickSlider onSelectMovie={handleSelectMovie} />
 
       <Footer />
     </div>
