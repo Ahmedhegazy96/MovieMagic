@@ -1,9 +1,11 @@
-import React from "react";
-
-export default function SearchBar() {
+export default function SearchBar({ query, setQuery }) {
   return (
-    <div className="search-bar-container">
-      <input className="search" type="text" placeholder="Search movies..." />
-    </div>
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
   );
 }

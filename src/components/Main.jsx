@@ -1,9 +1,3 @@
-import TrendingMovies from "./TrendingMovies";
-
-export default function Main() {
-  return (
-    <main className="main">
-      <TrendingMovies />
-    </main>
-  );
+export default function Main({ children }) {
+  return <main className="main">{children}</main>;
 }

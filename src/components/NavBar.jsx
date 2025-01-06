@@ -1,14 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logo from "./Logo";
-import SearchBar from "./SearchBar";
 import { faUser, faBell } from "@fortawesome/free-regular-svg-icons";
 
-export default function NavBar() {
+export default function NavBar({ children }) {
   return (
     <div className="nav-bar">
       <Logo />
 
-      <SearchBar />
+      {children}
 
       <ul className="nav-links">
         <li>
