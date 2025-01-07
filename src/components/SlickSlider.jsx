@@ -6,22 +6,12 @@ import "slick-carousel/slick/slick-theme.css";
 import Movie from "./Movie";
 import Box from "./Box";
 
-export default function SlickSlider({ onSelectMovie }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    async function getMovies() {
-      const response = await fetch(
-        `https://www.omdbapi.com/?apikey=cad125ee&s=new&type=movie&y=2024`
-      );
-      console.log(response);
-      const data = await response.json();
-
-      setMovies(data.Search);
-    }
-    getMovies();
-  }, [setMovies]);
-
+export default function SlickSlider({
+  onSelectMovie,
+  currentSlide,
+  setCurrentSlide,
+  movies,
+}) {
   const settings = {
     dots: false,
     infinite: true,
@@ -43,17 +33,19 @@ export default function SlickSlider({ onSelectMovie }) {
     ],
   };
 
-  const currentMovie = movies[currentSlide] || {};
-
   return (
-    <Box>
-      <div className="slider-container">
-        <Slider {...settings}>
-          {movies.map((movie, index) => (
-            <Movie movie={movie} onSelectMovie={onSelectMovie} key={index} />
-          ))}
-        </Slider>
-      </div>
-    </Box>
+    <div className="slick-slider-container bg-gray-800 p-6 rounded-lg shadow-lg">
+      <Slider {...settings}>
+        {movies.map((movie, index) => (
+          <Movie
+            movie={movie}
+            onSelectMovie={onSelectMovie}
+            key={index}
+            className="p-2 h-full"
+            showDetails={false}
+          />
+        ))}
+      </Slider>
+    </div>
   );
 }

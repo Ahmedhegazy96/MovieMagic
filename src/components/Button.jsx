@@ -1,7 +1,10 @@
-export default function Button() {
+export default function Button({ onClick, className, children }) {
   return (
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-      Trending Now!
+    <button
+      className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ${className}`}
+      onClick={onClick}
+    >
+      {children}
     </button>
   );
 }

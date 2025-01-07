@@ -1,14 +1,38 @@
-export default function Movie({ movie, onSelectMovie }) {
+import Box from "./Box";
+
+export default function Movie({
+  movie,
+  onSelectMovie,
+  className,
+  showDetails = true,
+}) {
   return (
-    <li onClick={() => onSelectMovie(movie.imdbID)}>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
-      <div>
-        <p>
-          <span>🗓</span>
-          <span>{movie.Year}</span>
-        </p>
-      </div>
-    </li>
+    <Box
+      className={`cursor-pointer bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-transform hover:scale-105 ${className}`}
+      onClick={() => onSelectMovie(movie.imdbID)}
+    >
+      <img
+        src={movie.Poster}
+        alt={`${movie.Title} poster`}
+        className={`w-full ${showDetails ? "h-200" : "h-128"} object-cover`}
+      />
+      {showDetails && (
+        <div className="p-4">
+          <h3 className="text-xl font-bold text-white">{movie.Title}</h3>
+          <div className="mt-2 text-gray-400">
+            <p className="flex items-center">
+              <span className="mr-2">🗓</span>
+              <span>{movie.Year}</span>
+            </p>
+            {movie.imdbRating && (
+              <p className="flex items-center mt-1">
+                <span className="mr-2">⭐</span>
+                <span>{movie.imdbRating}</span>
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+    </Box>
   );
 }

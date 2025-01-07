@@ -17,6 +17,8 @@ import { useMovies } from "./hooks/useMovies";
 import MovieList from "./components/MovieList";
 import MovieDetails from "./components/MovieDetails";
 import SlickSlider from "./components/SlickSlider";
+import SearchResults from "./components/SearchResults";
+import Trending from "./components/Trending";
 
 const KEY = "cad125ee";
 function App() {
@@ -97,14 +99,12 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            <SlickSlider movies={movies} onSelectMovie={handleSelectMovie} />
-          }
+          element={<Trending onSelectMovie={handleSelectMovie} />}
         />
         <Route
           path="/search"
           element={
-            <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
+            <SearchResults movies={movies} onSelectMovie={handleSelectMovie} />
           }
         />
         <Route

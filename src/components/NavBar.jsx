@@ -14,7 +14,7 @@ export default function NavBar({ query, setQuery, children }) {
         {children}
 
         <Link to="/" className="text-white text-lg">
-          <Button />
+          <Button>Trending Now!</Button>
         </Link>
       </div>
     </nav>

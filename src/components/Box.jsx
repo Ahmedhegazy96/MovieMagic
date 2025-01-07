@@ -1,5 +1,9 @@
 import { useState } from "react";
 
-export default function Box({ children, className }) {
-  return <div className={`relative ${className}`}>{children}</div>;
+export default function Box({ children, className, onClick, style }) {
+  return (
+    <div className={`relative ${className}`} onClick={onClick} style={style}>
+      {children}
+    </div>
+  );
 }
