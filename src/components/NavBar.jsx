@@ -1,28 +1,22 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logo from "./Logo";
 import { faUser, faBell } from "@fortawesome/free-regular-svg-icons";
+import SearchBar from "./SearchBar";
+import { Link } from "react-router-dom";
+import Button from "./Button";
 
-export default function NavBar({ children }) {
+export default function NavBar({ query, setQuery, children }) {
   return (
-    <div className="nav-bar">
-      <Logo />
+    <nav className="bg-gray-800 p-4 rounded-lg shadow-lg">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+        <Logo />
 
-      {children}
+        {children}
 
-      <ul className="nav-links">
-        <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/trending">Trending</a>
-        </li>
-        <li>
-          <FontAwesomeIcon icon={faBell} />
-        </li>
-        <li>
-          <FontAwesomeIcon icon={faUser} />
-        </li>
-      </ul>
-    </div>
+        <Link to="/" className="text-white text-lg">
+          <Button />
+        </Link>
+      </div>
+    </nav>
   );
 }

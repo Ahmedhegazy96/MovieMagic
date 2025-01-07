@@ -71,6 +71,7 @@ function App() {
     },
     [query]
   );
+  console.log(query);
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -82,6 +83,7 @@ function App() {
 
     navigate(-1);
   }
+
   function handleSearch(newQuery) {
     setQuery(query === newQuery ? "" : newQuery);
     navigate("/search");
@@ -89,7 +91,7 @@ function App() {
 
   return (
     <div>
-      <NavBar>
+      <NavBar query={query} setQuery={handleSearch}>
         <SearchBar query={query} setQuery={handleSearch} />
       </NavBar>
       <Routes>
