@@ -23,7 +23,7 @@ body {
 
   color: var(--color-text);
   background-color: var(--color-background-900);
-  padding: 2.4rem;
+  padding: 1rem;
 }
 
 /* ******* */
@@ -77,23 +77,9 @@ ul {
 
 /* ******* */
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  color: #00c2ff;
-  font-size: 38.83px;
-}
 
-.logo span {
-  font-size: 3.2rem;
-}
 
-.logo h1 {
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: #fff;
-}
+
 
 .btn-toggle {
   position: absolute;
@@ -315,13 +301,6 @@ ul {
   justify-content: center;
 }
 
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 10rem;
-  padding: 0 8em;
-}
 
 /*
 SPACING SYSTEM (px)
