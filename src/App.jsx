@@ -5,23 +5,22 @@ import {
   Route,
   Routes,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 
-import Box from "./components/Box";
 import Footer from "./components/Footer";
-import Main from "./components/Main";
 import NavBar from "./components/NavBar";
-import SearchBar from "./components/SearchBar";
-import { useMovies } from "./hooks/useMovies";
+import useScrollToTop from "./hooks/useScrollToTop";
 
-import MovieList from "./components/MovieList";
-import MovieDetails from "./components/MovieDetails";
-import SlickSlider from "./components/SlickSlider";
 import SearchResults from "./components/SearchResults";
 import Trending from "./components/Trending";
+import Box from "./components/Box";
+import SelectedMovieDetails from "./components/SelectedMovieDetails";
 
 const KEY = "cad125ee";
 function App() {
+  useScrollToTop();
+
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,8 +28,6 @@ function App() {
 
   const [selectedId, setSelectedId] = useState(null);
   const navigate = useNavigate();
-
-  // const [showSearch, setShowSearch] = useState(false);
 
   useEffect(
     function () {
@@ -73,6 +70,7 @@ function App() {
     },
     [query]
   );
+
   console.log(query);
 
   function handleSelectMovie(id) {
@@ -83,7 +81,7 @@ function App() {
   function handleCloseMovie() {
     setSelectedId(null);
 
-    navigate(-1);
+    navigate("/");
   }
 
   function handleSearch(newQuery) {
@@ -92,33 +90,37 @@ function App() {
   }
 
   return (
-    <div>
-      <NavBar query={query} setQuery={handleSearch}>
-        <SearchBar query={query} setQuery={handleSearch} />
-      </NavBar>
-      <Routes>
-        <Route
-          path="/"
-          element={<Trending onSelectMovie={handleSelectMovie} />}
-        />
-        <Route
-          path="/search"
-          element={
-            <SearchResults movies={movies} onSelectMovie={handleSelectMovie} />
-          }
-        />
-        <Route
-          path="/movie/:id"
-          element={
-            <MovieDetails
-              selectedId={selectedId}
-              onCloseMovie={handleCloseMovie}
-            />
-          }
-        />
-      </Routes>
-      <Footer />
-    </div>
+    <Box className="bg-gray-900 min-h-screen flex flex-col">
+      <NavBar query={query} setQuery={handleSearch} />
+      <main className="flex-grow">
+        <Routes>
+          <Route
+            path="/"
+            element={<Trending onSelectMovie={handleSelectMovie} />}
+          />
+          <Route
+            path="/search"
+            element={
+              <SearchResults
+                movies={movies}
+                onSelectMovie={handleSelectMovie}
+              />
+            }
+          />
+          <Route
+            path="/movie/:id"
+            element={
+              <SelectedMovieDetails
+                selectedId={selectedId}
+                onCloseMovie={handleCloseMovie}
+                onSelectMovie={handleSelectMovie}
+              />
+            }
+          />
+        </Routes>
+        <Footer />
+      </main>
+    </Box>
   );
 }
 

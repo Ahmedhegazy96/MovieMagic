@@ -44,13 +44,7 @@ ul {
   list-style: none;
 }
 
-.main {
-  margin-top: 2.4rem;
-  height: calc(100vh - 7.2rem - 3 * 2.4rem);
-  display: flex;
-  gap: 2.4rem;
-  justify-content: center;
-}
+
 
 .box {
   width: 42rem;

@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useKey } from "../hooks/useKey";
 import Loader from "./Loader";
 import Box from "./Box";
+import Spinner from "./Spinner";
+import Button from "./Button";
+import FavoritesButton from "./FavoritesButton";
+import MovieDetailsContent from "./MovieDetailsContent";
 
 const KEY = "cad125ee";
 
@@ -32,12 +36,12 @@ export default function MovieDetails({ selectedId, onCloseMovie }) {
         );
         const data = await response.json();
         console.log(data);
-        if (data.Response === "True") {
-          setSelectedMovie(data);
-        } else {
+        if (data.Response === "False") {
           setError(data.Error);
+        } else {
+          setSelectedMovie(data);
         }
-      } catch (error) {
+      } catch (err) {
         setError("Failed to fetch movie details");
       } finally {
         setIsLoading(false);
@@ -63,42 +67,21 @@ export default function MovieDetails({ selectedId, onCloseMovie }) {
     [title]
   );
 
+  if (isLoading) return <Spinner />;
   if (!selectedMovie) return null;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <Spinner />;
 
   return (
-    <Box>
-      <div className="details">
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <header>
-              <button className="btn-back" onClick={onCloseMovie}>
-                &larr;
-              </button>
-              <img src={poster} alt={`Poster of ${selectedMovie}`} />
-              <div className="details-overview">
-                <h2>{title}</h2>
-                <p>
-                  {released} &bull; {runtime}
-                </p>
-                <p>{genre}</p>
-                <p>
-                  <span>⭐️</span>
-                  {imdbRating} IMDB rating
-                </p>
-              </div>
-            </header>
-            <section>
-              <p>
-                <em>{plot}</em>
-              </p>
-              <p>Starring {actors}</p>
-              <p>Directed by {director}</p>
-            </section>
-          </>
-        )}
+    <Box className="p-8 bg-gray-900 rounded-2xl shadow-2xl">
+      <MovieDetailsContent movie={selectedMovie} />
+      <div className="absolute top-4 right-4 flex space-x-4">
+        <FavoritesButton selectedId={selectedId} />
+        <Button
+          className="flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition bg-gray-600 hover:bg-gray-700 text-white text-2xl"
+          onClick={onCloseMovie}
+        >
+          &times;
+        </Button>
       </div>
     </Box>
   );

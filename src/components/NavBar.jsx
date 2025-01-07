@@ -5,17 +5,18 @@ import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 
-export default function NavBar({ query, setQuery, children }) {
+export default function NavBar({ query, setQuery }) {
   return (
-    <nav className="bg-gray-800 p-4 rounded-lg shadow-lg">
+    <nav className="bg-gray-800 p-4 shadow-lg sticky top-0 z-50 rounded-b-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
         <Logo />
 
-        {children}
-
-        <Link to="/" className="text-white text-lg">
-          <Button>Trending Now!</Button>
-        </Link>
+        <SearchBar query={query} setQuery={setQuery} />
+        <div className="flex items-center space-x-4">
+          <Link to="/" className="text-white text-lg">
+            <Button>Trending Now!</Button>
+          </Link>
+        </div>
       </div>
     </nav>
   );
