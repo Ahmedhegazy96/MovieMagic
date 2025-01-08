@@ -41,24 +41,27 @@ export default function NavBar() {
     <nav className="bg-gray-800 p-4 shadow-lg sticky top-0 z-50 rounded-b-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
         <Logo />
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
           <input
             type="text"
             value={inputValue}
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
-            className="p-2 rounded bg-gray-700 text-white"
+            className="p-2 rounded bg-gray-700 text-white w-full md:w-auto"
             placeholder="Search for movies..."
           />
           <button
             onClick={handleSearch}
-            className="p-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+            className="p-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition w-full md:w-auto"
           >
             Search
           </button>
 
-          <Link to="/" className="text-white text-lg">
+          <Link to="/trending" className="text-white text-lg">
             <Button>Trending Now!</Button>
+          </Link>
+          <Link to="/favorites" className="text-white text-lg">
+            <Button>Favorites</Button>
           </Link>
         </div>
       </div>

@@ -18,6 +18,8 @@ const movieReducer = (state, action) => {
       return { ...state, query: action.payload };
     case "SET_MOVIES":
       return { ...state, movies: action.payload };
+    case "SET_TRENDING_MOVIES":
+      return { ...state, trendingMovies: action.payload };
     case "SET_SELECTED_ID":
       return { ...state, selectedId: action.payload };
     case "SET_SELECTED_MOVIE":

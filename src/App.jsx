@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -16,6 +16,8 @@ import Trending from "./components/Trending";
 import Box from "./components/Box";
 import SelectedMovieDetails from "./components/SelectedMovieDetails";
 import { MovieContext } from "./context/MovieContext.jsx";
+import Favorites from "./components/Favorites.jsx";
+import LandingPage from "./components/LandingPage.jsx";
 
 const KEY = "cad125ee";
 function App() {
@@ -91,6 +93,10 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route
+            path="/"
+            element={<LandingPage onSelectMovie={handleSelectMovie} />}
+          />
+          <Route
             path="/trending"
             element={<Trending onSelectMovie={handleSelectMovie} />}
           />
@@ -100,12 +106,21 @@ function App() {
           />
           <Route
             path="/movie/:id"
-            element={<SelectedMovieDetails onCloseMovie={handleCloseMovie} />}
+            element={
+              <>
+                <SelectedMovieDetails onCloseMovie={handleCloseMovie} />
+                <Trending onSelectMovie={handleSelectMovie} />
+              </>
+            }
+          />
+          <Route
+            path="/favorites"
+            element={<Favorites onSelectMovie={handleSelectMovie} />}
           />
         </Routes>
-        <Trending onSelectMovie={handleSelectMovie} />
-        <Footer />
       </main>
+
+      <Footer />
     </Box>
   );
 }
