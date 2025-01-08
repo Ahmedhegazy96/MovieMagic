@@ -14,17 +14,6 @@ export default function Trending({ onSelectMovie }) {
   const { movies, isLoading, error } = state;
 
   useEffect(() => {
-    //   async function fetchTrendingMovies() {
-    //     const response = await fetch(
-    //       `https://www.omdbapi.com/?apikey=cad125ee&s=new&type=movie&y=2024`
-    //     );
-    //     console.log(response);
-    //     const data = await response.json();
-
-    //     setMovies(data.Search);
-    //   }
-    //   fetchTrendingMovies();
-    // }, [dispatch]);
     const fetchTrendingMovies = async () => {
       try {
         dispatch({ type: "SET_LOADING", payload: true });
@@ -53,7 +42,6 @@ export default function Trending({ onSelectMovie }) {
       .getElementById("slick-slider")
       .scrollIntoView({ behavior: "smooth" });
   };
-  if (isLoading) return <Spinner />;
 
   return (
     <Box className="container mx-auto p-8 bg-gray-900 rounded-xl shadow-2xl my-6">
@@ -83,12 +71,6 @@ export default function Trending({ onSelectMovie }) {
           />
         ))}
       </SlickSlider>
-      <div className="flex justify-between mt-4">
-        <Button onClick={() => setCurrentSlide(currentSlide - 1)}>
-          Previous
-        </Button>
-        <Button onClick={() => setCurrentSlide(currentSlide + 1)}>Next</Button>
-      </div>
     </Box>
   );
 }

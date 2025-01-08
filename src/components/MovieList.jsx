@@ -13,6 +13,7 @@ export default function MovieList({ movies, onSelectMovie }) {
           <li
             key={movie.imdbID}
             className="flex items-center justify-between p-4 bg-gray-700 rounded-lg shadow-md cursor-pointer transition-transform transform hover:scale-105 hover:bg-gray-800"
+            onClick={() => onSelectMovie(movie.imdbID)}
           >
             <MovieSearchDetails movie={movie} onSelectMovie={onSelectMovie} />
             <FavoritesButton selectedId={movie.imdbID} />

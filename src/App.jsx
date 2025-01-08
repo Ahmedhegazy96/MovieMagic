@@ -5,7 +5,6 @@ import {
   Route,
   Routes,
   useNavigate,
-  useLocation,
 } from "react-router-dom";
 
 import Footer from "./components/Footer";
@@ -50,6 +49,7 @@ function App() {
           if (err.name !== "AbortError") {
             console.log(err.message);
             dispatch({ type: "SET_ERROR", payload: err.message });
+            dispatch({ type: "SET_QUERY", payload: "" }); // Reset the query state
           }
         } finally {
           dispatch({ type: "SET_LOADING", payload: false });
@@ -91,7 +91,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route
-            path="/"
+            path="/trending"
             element={<Trending onSelectMovie={handleSelectMovie} />}
           />
           <Route
@@ -103,7 +103,7 @@ function App() {
             element={<SelectedMovieDetails onCloseMovie={handleCloseMovie} />}
           />
         </Routes>
-        {/* <Trending onSelectMovie={handleSelectMovie} /> */}
+        <Trending onSelectMovie={handleSelectMovie} />
         <Footer />
       </main>
     </Box>

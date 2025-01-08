@@ -9,6 +9,7 @@ import Spinner from "./Spinner";
 import { useKey } from "../hooks/useKey";
 
 export default function SelectedMovieDetails({ onCloseMovie }) {
+  useKey("Escape", onCloseMovie);
   return (
     <Box>
       <MovieDetails onCloseMovie={onCloseMovie} />

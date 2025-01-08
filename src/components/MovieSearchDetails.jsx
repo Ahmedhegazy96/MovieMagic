@@ -4,10 +4,7 @@ export default function MovieSearchDetails({ movie, onSelectMovie }) {
   const { Title, Year, Poster, imdbID, imdbRating } = movie;
 
   return (
-    <div
-      className="grid grid-cols-[6rem_1fr] grid-rows-[auto_auto] gap-x-6 p-4 border-b border-gray-700 cursor-pointer transition-transform transform hover:scale-105 hover:bg-gray-800 hover:shadow-lg"
-      onClick={() => onSelectMovie(imdbID)}
-    >
+    <div className="grid grid-cols-[6rem_1fr] grid-rows-[auto_auto] gap-x-6 p-4 border-b border-gray-700 cursor-pointer transition-transform transform hover:scale-105 hover:bg-gray-800 hover:shadow-lg">
       <img
         src={Poster}
         alt={`${Title} poster`}

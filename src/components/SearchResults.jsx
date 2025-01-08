@@ -4,6 +4,7 @@ import MovieList from "./MovieList";
 import Trending from "./Trending";
 import { MovieContext } from "../context/MovieContext";
 import Spinner from "./Spinner";
+import ErrorMessage from "./ErrorMessage";
 
 export default function SearchResults({ onSelectMovie }) {
   const { state, dispatch } = useContext(MovieContext);
@@ -24,7 +25,7 @@ export default function SearchResults({ onSelectMovie }) {
           throw new Error(data.Error);
         }
         dispatch({ type: "SET_MOVIES", payload: data.Search });
-      } catch (err) {
+      } catch (error) {
         dispatch({
           type: "SET_ERROR",
           payload: "Failed to fetch search results.",
@@ -44,10 +45,11 @@ export default function SearchResults({ onSelectMovie }) {
 
   //   return () => clearTimeout(timer);
   // }, []);
-  if (isLoading) return <Spinner />;
 
   return (
     <Box>
+      {isLoading && <Spinner />}
+      {error && <ErrorMessage message={"Please try another movie."} />}
       <MovieList movies={movies} onSelectMovie={onSelectMovie} />
     </Box>
   );
