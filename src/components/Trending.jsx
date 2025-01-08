@@ -1,24 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Box from "./Box";
 import SlickSlider from "./SlickSlider";
 import TrendingMovie from "./TrendingMovie";
 import Button from "./Button";
+import { MovieContext } from "../context/MovieContext";
+import Movie from "./Movie";
+import Spinner from "./Spinner";
 
 export default function Trending({ onSelectMovie }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    async function getMovies() {
-      const response = await fetch(
-        `https://www.omdbapi.com/?apikey=cad125ee&s=new&type=movie&y=2024`
-      );
-      console.log(response);
-      const data = await response.json();
+  const { state, dispatch } = useContext(MovieContext);
 
-      setMovies(data.Search);
-    }
-    getMovies();
-  }, [setMovies]);
+  const { movies, isLoading, error } = state;
+
+  useEffect(() => {
+    //   async function fetchTrendingMovies() {
+    //     const response = await fetch(
+    //       `https://www.omdbapi.com/?apikey=cad125ee&s=new&type=movie&y=2024`
+    //     );
+    //     console.log(response);
+    //     const data = await response.json();
+
+    //     setMovies(data.Search);
+    //   }
+    //   fetchTrendingMovies();
+    // }, [dispatch]);
+    const fetchTrendingMovies = async () => {
+      try {
+        dispatch({ type: "SET_LOADING", payload: true });
+        dispatch({ type: "SET_ERROR", payload: null });
+        const response = await fetch(
+          `https://www.omdbapi.com/?apikey=cad125ee&s=new&type=movie&y=2024`
+        );
+        const data = await response.json();
+        dispatch({ type: "SET_MOVIES", payload: data.Search });
+      } catch (err) {
+        dispatch({
+          type: "SET_ERROR",
+          payload: "Failed to fetch trending movies.",
+        });
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
+    };
+    fetchTrendingMovies();
+  }, [dispatch]);
 
   const currentMovie = movies[currentSlide] || {};
 
@@ -27,6 +53,7 @@ export default function Trending({ onSelectMovie }) {
       .getElementById("slick-slider")
       .scrollIntoView({ behavior: "smooth" });
   };
+  if (isLoading) return <Spinner />;
 
   return (
     <Box className="container mx-auto p-8 bg-gray-900 rounded-xl shadow-2xl my-6">
@@ -39,14 +66,28 @@ export default function Trending({ onSelectMovie }) {
           &#x2193;
         </Button>
       </div>
+
       <TrendingMovie movie={currentMovie} onSelectMovie={onSelectMovie} />
-      <div id="slick-slider" className="mt-6">
-        <SlickSlider
-          currentSlide={currentSlide}
-          movies={movies}
-          onSelectMovie={onSelectMovie}
-          setCurrentSlide={setCurrentSlide}
-        />
+      <SlickSlider
+        currentSlide={currentSlide}
+        setCurrentSlide={setCurrentSlide}
+        id="slick-slider"
+      >
+        {movies.map((movie) => (
+          <Movie
+            key={movie.imdbID}
+            movie={movie}
+            onSelectMovie={onSelectMovie}
+            className="p-2 h-full"
+            showDetails={false}
+          />
+        ))}
+      </SlickSlider>
+      <div className="flex justify-between mt-4">
+        <Button onClick={() => setCurrentSlide(currentSlide - 1)}>
+          Previous
+        </Button>
+        <Button onClick={() => setCurrentSlide(currentSlide + 1)}>Next</Button>
       </div>
     </Box>
   );

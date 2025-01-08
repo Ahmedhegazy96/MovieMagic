@@ -2,7 +2,7 @@ import React from "react";
 import Box from "./Box";
 import Movie from "./Movie";
 
-export default function FeaturedMovie({ movie, onSelectMovie }) {
+export default function TrendingMovie({ movie, onSelectMovie }) {
   if (!movie) return null;
 
   const { Poster, Title, Year, imdbRating } = movie;

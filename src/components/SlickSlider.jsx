@@ -7,10 +7,10 @@ import Movie from "./Movie";
 import Box from "./Box";
 
 export default function SlickSlider({
-  onSelectMovie,
+  id,
   currentSlide,
   setCurrentSlide,
-  movies,
+  children,
 }) {
   const settings = {
     dots: false,
@@ -21,7 +21,7 @@ export default function SlickSlider({
     autoplay: true,
     autoplaySpeed: 3000,
     cssEase: "linear",
-    beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex),
+    afterChange: (current) => setCurrentSlide(current),
     responsive: [
       {
         breakpoint: 768,
@@ -34,18 +34,11 @@ export default function SlickSlider({
   };
 
   return (
-    <div className="slick-slider-container bg-gray-800 p-6 rounded-lg shadow-lg">
-      <Slider {...settings}>
-        {movies.map((movie, index) => (
-          <Movie
-            movie={movie}
-            onSelectMovie={onSelectMovie}
-            key={index}
-            className="p-2 h-full"
-            showDetails={false}
-          />
-        ))}
-      </Slider>
+    <div
+      id={id}
+      className="slick-slider-container bg-gray-800 p-6 rounded-lg shadow-lg"
+    >
+      <Slider {...settings}>{children}</Slider>
     </div>
   );
 }

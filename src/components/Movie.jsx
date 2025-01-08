@@ -7,6 +7,7 @@ export default function Movie({
   className,
   showDetails = true,
 }) {
+  console.log(movie.imdbID);
   return (
     <Box
       className={`cursor-pointer bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-transform hover:scale-105 ${className}`}

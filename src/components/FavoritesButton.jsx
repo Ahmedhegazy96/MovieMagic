@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
+import { MovieContext } from "../context/MovieContext";
 
-export default function FavoritesButton({ selectedId, className }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+export default function FavoritesButton({ className }) {
+  const { state, dispatch } = useContext(MovieContext);
+  const { favorites, selectedId } = state;
 
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setIsFavorite(favorites.includes(selectedId));
-  }, [selectedId]);
+  const isFavorite = favorites.includes(selectedId);
 
   const handleToggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    if (favorites.includes(selectedId)) {
-      const updatedFavorites = favorites.filter((id) => id !== selectedId);
-      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-      setIsFavorite(false);
-      console.log(`Removed ${selectedId} from favorites`);
-    } else {
-      favorites.push(selectedId);
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-      setIsFavorite(true);
-      console.log(`Added ${selectedId} to favorites`);
+    try {
+      if (isFavorite) {
+        dispatch({ type: "REMOVE_FAVORITE", payload: selectedId });
+      } else {
+        dispatch({ type: "ADD_FAVORITE", payload: selectedId });
+      }
+    } catch (err) {
+      dispatch({ type: "SET_ERROR", payload: "Failed to update favorites." });
     }
   };
 
@@ -43,7 +39,7 @@ export default function FavoritesButton({ selectedId, className }) {
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="2"
-          d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"
+          d="M5 13l4 4L19 7"
         />
       </svg>
     </button>

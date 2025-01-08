@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MovieContext } from "../context/MovieContext";
 
 export default function MovieDetailsContent({ movie }) {
   const {

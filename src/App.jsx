@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -16,17 +16,15 @@ import SearchResults from "./components/SearchResults";
 import Trending from "./components/Trending";
 import Box from "./components/Box";
 import SelectedMovieDetails from "./components/SelectedMovieDetails";
+import { MovieContext } from "./context/MovieContext.jsx";
 
 const KEY = "cad125ee";
 function App() {
+  const { state, dispatch } = useContext(MovieContext);
+  const { query } = state;
+
   useScrollToTop();
 
-  const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const [selectedId, setSelectedId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(
@@ -36,8 +34,8 @@ function App() {
       const controller = new AbortController();
       async function fetchMovies() {
         try {
-          setIsLoading(true);
-          setError("");
+          dispatch({ type: "SET_LOADING", payload: true });
+          dispatch({ type: "SET_ERROR", payload: null });
           const res = await fetch(
             `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
             { signal: controller.signal }
@@ -45,21 +43,22 @@ function App() {
           if (!res.ok) throw new Error("something went wrong");
           const data = await res.json();
           if (data.Response === "False") throw new Error("Movie not found");
-          setMovies(data.Search);
-          setError("");
+          dispatch({ type: "SET_MOVIES", payload: data.Search });
+
+          dispatch({ type: "SET_ERROR", payload: null });
         } catch (err) {
           if (err.name !== "AbortError") {
             console.log(err.message);
-            setError(err.message);
+            dispatch({ type: "SET_ERROR", payload: err.message });
           }
         } finally {
-          setIsLoading(false);
+          dispatch({ type: "SET_LOADING", payload: false });
         }
       }
 
       if (query.length < 3) {
-        setMovies([]);
-        setError("");
+        dispatch({ type: "SET_LOADING", payload: true });
+
         return;
       }
       fetchMovies();
@@ -68,30 +67,27 @@ function App() {
         controller.abort();
       };
     },
-    [query]
+    [query, dispatch]
   );
 
   console.log(query);
 
   function handleSelectMovie(id) {
-    setSelectedId((selectedId) => (id === selectedId ? null : id));
-    console.log(selectedId);
+    dispatch({
+      type: "SET_SELECTED_ID",
+      payload: id,
+    });
+
     navigate(`/movie/${id}`);
   }
   function handleCloseMovie() {
-    setSelectedId(null);
-
-    navigate("/");
-  }
-
-  function handleSearch(newQuery) {
-    setQuery(query === newQuery ? "" : newQuery);
-    navigate("/search");
+    dispatch({ type: "SET_SELECTED_ID", payload: null });
+    navigate(-1);
   }
 
   return (
     <Box className="bg-gray-900 min-h-screen flex flex-col">
-      <NavBar query={query} setQuery={handleSearch} />
+      <NavBar />
       <main className="flex-grow">
         <Routes>
           <Route
@@ -100,24 +96,14 @@ function App() {
           />
           <Route
             path="/search"
-            element={
-              <SearchResults
-                movies={movies}
-                onSelectMovie={handleSelectMovie}
-              />
-            }
+            element={<SearchResults onSelectMovie={handleSelectMovie} />}
           />
           <Route
             path="/movie/:id"
-            element={
-              <SelectedMovieDetails
-                selectedId={selectedId}
-                onCloseMovie={handleCloseMovie}
-                onSelectMovie={handleSelectMovie}
-              />
-            }
+            element={<SelectedMovieDetails onCloseMovie={handleCloseMovie} />}
           />
         </Routes>
+        {/* <Trending onSelectMovie={handleSelectMovie} /> */}
         <Footer />
       </main>
     </Box>
