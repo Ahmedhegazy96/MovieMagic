@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { MovieContext } from "../context/MovieContext";
+import UserRating from "./UserRating";
 
 export default function MovieDetailsContent({ movie }) {
   const {
@@ -11,6 +10,7 @@ export default function MovieDetailsContent({ movie }) {
     Released: released,
     Actors: actors,
     Poster: poster,
+    imdbID,
   } = movie;
 
   return (
@@ -23,23 +23,32 @@ export default function MovieDetailsContent({ movie }) {
         />
         <div className="ml-8">
           <h2 className="text-4xl font-bold text-white mb-4">{title}</h2>
-          <p className="text-gray-400 text-lg">{year}</p>
-          <p className="text-gray-400 text-lg">{runtime}</p>
-          <p className="text-gray-400 text-lg">{released}</p>
-          <p className="text-gray-400 text-lg">{actors}</p>
+          <p className="text-gray-400 text-lg">Released: {year}</p>
+          <p className="text-gray-400 text-lg">Duration: {runtime}</p>
+          <p className="text-gray-400 text-lg">Release Date: {released}</p>
+          <UserRating
+            movieId={imdbID}
+            maxRating={5}
+            color="#fcc419"
+            size={24}
+            messages={["Terrible", "Bad", "Okay", "Good", "Great"]}
+            defaultRating={0}
+            onSetRating={(rating) => console.log(`User rated ${rating} stars`)}
+          />
+          <p className="text-gray-400 text-lg">Actors: {actors}</p>
+          {/* <div className="bg-gray-800 p-6 rounded-lg shadow-lg mt-4">
+            <h3 className="text-2xl font-bold text-white mb-4">Rating</h3>
+            <p className="text-yellow-500 flex items-center gap-2">
+              <span>⭐️</span>
+              {imdbRating} IMDB rating
+            </p>
+          </div> */}
         </div>
       </header>
       <section className="flex flex-col gap-6">
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
           <h3 className="text-2xl font-bold text-white mb-4">Overview</h3>
           <p className="text-gray-400">{plot}</p>
-        </div>
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h3 className="text-2xl font-bold text-white mb-4">Rating</h3>
-          <p className="text-yellow-500 flex items-center gap-2">
-            <span className="material-icons">star</span>
-            {imdbRating}
-          </p>
         </div>
       </section>
     </>
