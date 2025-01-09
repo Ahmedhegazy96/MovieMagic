@@ -32,7 +32,11 @@ export default function Trending({ onSelectMovie }) {
         dispatch({ type: "SET_LOADING", payload: false });
       }
     };
+
     fetchTrendingMovies();
+    return () => {
+      dispatch({ type: "SET_MOVIES", payload: [] });
+    };
   }, [dispatch]);
 
   const currentMovie = movies[currentSlide] || {};
@@ -42,6 +46,7 @@ export default function Trending({ onSelectMovie }) {
       .getElementById("slick-slider")
       .scrollIntoView({ behavior: "smooth" });
   };
+  if (isLoading) return <Spinner />;
 
   return (
     <Box className="container mx-auto p-8 bg-gray-900 rounded-xl shadow-2xl my-6">

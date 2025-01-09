@@ -1,5 +1,5 @@
-import Box from "./Box";
-import MovieDetails from "./MovieDetails";
+import Box from "../components/Box";
+import MovieDetails from "../components/MovieDetails";
 
 import { useKey } from "../hooks/useKey";
 

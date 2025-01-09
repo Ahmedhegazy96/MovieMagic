@@ -5,7 +5,7 @@ import Button from "./Button";
 import { useContext, useState } from "react";
 import { MovieContext } from "../context/MovieContext";
 
-export default function NavBar() {
+export default function NavBar({ onToggleComponent }) {
   const { state, dispatch } = useContext(MovieContext);
   const { query } = state;
   const [inputValue, setInputValue] = useState(query);
@@ -29,6 +29,7 @@ export default function NavBar() {
     if (inputValue.trim() === "") return;
     dispatch({ type: "SET_QUERY", payload: inputValue });
     dispatch({ type: "SET_MOVIES", payload: [] });
+    setInputValue("");
 
     navigate("/search");
   };
@@ -38,7 +39,7 @@ export default function NavBar() {
     }
   };
   return (
-    <nav className="bg-gray-800 p-4 shadow-lg sticky top-0 z-50 rounded-b-lg">
+    <nav className="bg-gray-800 p-4 shadow-lg  top-0 z-50 rounded-b-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
         <Logo />
         <div className="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
@@ -57,12 +58,19 @@ export default function NavBar() {
             Search
           </button>
 
-          <Link to="/trending" className="text-white text-lg">
-            <Button>Trending Now!</Button>
-          </Link>
-          <Link to="/favorites" className="text-white text-lg">
-            <Button>Favorites</Button>
-          </Link>
+          <Button
+            onClick={() => onToggleComponent("trending")}
+            className="text-white text-lg"
+          >
+            Trending Now!
+          </Button>
+
+          <Button
+            onClick={() => onToggleComponent("favorites")}
+            className="text-white text-lg"
+          >
+            Favorites
+          </Button>
         </div>
       </div>
     </nav>

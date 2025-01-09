@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Movie from "./Movie";
 import Box from "./Box";
 import Spinner from "./Spinner";
 import MovieSearchDetails from "./MovieSearchDetails.jsx";
 import FavoritesButton from "./FavoritesButton.jsx";
+import { MovieContext } from "../context/MovieContext.jsx";
 
-export default function MovieList({ movies, onSelectMovie }) {
+export default function MovieList({ onSelectMovie }) {
+  const { state, dispatch } = useContext(MovieContext);
+  const { query, movies, isLoading, error } = state;
+
   return (
     <Box className="w-full max-w-6xl mx-auto p-6 bg-gray-900 rounded-lg shadow-lg">
       <ul className="space-y-6 bg-gray-800 p-4 rounded-xl shadow-lg">

@@ -36,11 +36,6 @@ export default function LandingPage() {
               Search Movies
             </Button>
           </Link>
-          <Link to="/favorites">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-              View Favorites
-            </Button>
-          </Link>
         </div>
       </div>
       <div className="relative z-0">
@@ -55,7 +50,9 @@ export default function LandingPage() {
           </p>
           <p className="text-gray-300 text-lg mb-2">
             IMDb Rating: {staticMovie.imdbRating}
+            <span className="mr-2">⭐</span>
           </p>
+
           <p className="text-gray-300 text-lg mb-2">
             Release Date: {staticMovie.Released}
           </p>

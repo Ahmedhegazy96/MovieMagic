@@ -1,19 +1,21 @@
 import { useContext, useEffect } from "react";
-import Box from "./Box";
-import MovieList from "./MovieList";
+import Box from "../components/Box";
+import MovieList from "../components/MovieList";
 import { MovieContext } from "../context/MovieContext";
-import Spinner from "./Spinner";
-import ErrorMessage from "./ErrorMessage";
-import Button from "./Button";
-import SearchPrompt from "./SearchPrompt";
+import Spinner from "../components/Spinner";
+import ErrorMessage from "../components/ErrorMessage";
+import Button from "../components/Button";
+import SearchPrompt from "../components/SearchPrompt";
 
 export default function SearchResults({ onSelectMovie }) {
   const { state, dispatch } = useContext(MovieContext);
   const { query, movies, isLoading, error } = state;
 
   useEffect(() => {
+    dispatch({ type: "SET_ERROR", payload: null });
+  }, []);
+  useEffect(() => {
     if (!query) return;
-
     const fetchSearchResults = async () => {
       try {
         dispatch({ type: "SET_LOADING", payload: true });
@@ -42,7 +44,6 @@ export default function SearchResults({ onSelectMovie }) {
   const handleRetry = () => {
     dispatch({ type: "SET_QUERY", payload: query });
   };
-
   return (
     <Box className="container mx-auto p-8 bg-gray-900 rounded-xl shadow-2xl my-6">
       {isLoading && <Spinner />}
@@ -61,7 +62,7 @@ export default function SearchResults({ onSelectMovie }) {
         </div>
       )}
       {!isLoading && !error && movies.length > 0 && (
-        <MovieList movies={movies} onSelectMovie={onSelectMovie} />
+        <MovieList onSelectMovie={onSelectMovie} />
       )}
     </Box>
   );
