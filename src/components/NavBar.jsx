@@ -2,8 +2,9 @@ import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MovieContext } from "../context/MovieContext";
+const KEY = "cad125ee";
 
 export default function NavBar({ onToggleComponent }) {
   const { state, dispatch } = useContext(MovieContext);
@@ -11,20 +12,54 @@ export default function NavBar({ onToggleComponent }) {
   const [inputValue, setInputValue] = useState(query);
   const navigate = useNavigate();
 
+  useEffect(
+    function () {
+      if (!query) return;
+
+      const controller = new AbortController();
+      async function fetchMovies() {
+        try {
+          dispatch({ type: "SET_LOADING", payload: true });
+          dispatch({ type: "SET_ERROR", payload: null });
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
+          );
+          if (!res.ok) throw new Error("something went wrong");
+          const data = await res.json();
+          if (data.Response === "False") throw new Error("Movie not found");
+          dispatch({ type: "SET_MOVIES", payload: data.Search });
+
+          dispatch({ type: "SET_ERROR", payload: null });
+        } catch (err) {
+          if (err.name !== "AbortError") {
+            console.log(err.message);
+            dispatch({ type: "SET_ERROR", payload: err.message });
+          }
+        } finally {
+          dispatch({ type: "SET_LOADING", payload: false });
+          dispatch({ type: "SET_QUERY", payload: "" });
+        }
+      }
+
+      if (query.length < 3) {
+        dispatch({ type: "SET_LOADING", payload: true });
+
+        return;
+      }
+      fetchMovies();
+
+      return function () {
+        controller.abort();
+      };
+    },
+    [query, dispatch]
+  );
+
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-  // const handleSearch = () => {
-  // //   dispatch({ type: "SET_QUERY", payload: inputValue });
-  // // };
 
-  // function handleSearch(newQuery) {
-  //   dispatch({
-  //     type: "SET_QUERY",
-  //     payload: query === newQuery ? "" : newQuery,
-  //   });
-  //   navigate("/search");
-  // }
   const handleSearch = () => {
     if (inputValue.trim() === "") return;
     dispatch({ type: "SET_QUERY", payload: inputValue });

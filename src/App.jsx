@@ -33,49 +33,6 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(
-    function () {
-      if (!query) return;
-
-      const controller = new AbortController();
-      async function fetchMovies() {
-        try {
-          dispatch({ type: "SET_LOADING", payload: true });
-          dispatch({ type: "SET_ERROR", payload: null });
-          const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
-            { signal: controller.signal }
-          );
-          if (!res.ok) throw new Error("something went wrong");
-          const data = await res.json();
-          if (data.Response === "False") throw new Error("Movie not found");
-          dispatch({ type: "SET_MOVIES", payload: data.Search });
-
-          dispatch({ type: "SET_ERROR", payload: null });
-        } catch (err) {
-          if (err.name !== "AbortError") {
-            console.log(err.message);
-            dispatch({ type: "SET_ERROR", payload: err.message });
-          }
-        } finally {
-          dispatch({ type: "SET_LOADING", payload: false });
-          dispatch({ type: "SET_QUERY", payload: "" });
-        }
-      }
-
-      if (query.length < 3) {
-        dispatch({ type: "SET_LOADING", payload: true });
-
-        return;
-      }
-      fetchMovies();
-
-      return function () {
-        controller.abort();
-      };
-    },
-    [query, dispatch]
-  );
   useEffect(() => {
     setShowComponent(null); // Reset the displayed component on route change
   }, [location.pathname]);
