@@ -21,7 +21,7 @@ export default function SearchResults({ onSelectMovie }) {
         dispatch({ type: "SET_LOADING", payload: true });
         dispatch({ type: "SET_ERROR", payload: null });
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=cad125ee&s=${query}`
+          `https://www.omdbapi.com/?apikey=cad125ee&s=${query}`
         );
         const data = await response.json();
         if (data.Response === "False") {
