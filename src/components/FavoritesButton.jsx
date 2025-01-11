@@ -1,18 +1,36 @@
 import React, { useContext } from "react";
 import { MovieContext } from "../context/MovieContext";
 
-export default function FavoritesButton({ className }) {
+export default function FavoritesButton({ className, selectedId, movie }) {
   const { state, dispatch } = useContext(MovieContext);
-  const { favorites, selectedId } = state;
+  const { favorites } = state;
 
-  const isFavorite = favorites.includes(selectedId);
+  const isFavorite = favorites.some((favMovie) => favMovie.id === movie.id);
 
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = (e) => {
+    e.stopPropagation();
+
     try {
+      const movieData = {
+        id: movie.id,
+        Title: movie.Title,
+        Poster: movie.Poster,
+        Year: movie.Year,
+
+        imdbRating: movie.imdbRating,
+      };
       if (isFavorite) {
         dispatch({ type: "REMOVE_FAVORITE", payload: selectedId });
+        localStorage.setItem(
+          "favorites",
+          JSON.stringify(favorites.filter((fav) => fav.id !== selectedId))
+        );
       } else {
-        dispatch({ type: "ADD_FAVORITE", payload: selectedId });
+        dispatch({ type: "ADD_FAVORITE", payload: movieData });
+        localStorage.setItem(
+          "favorites",
+          JSON.stringify([...favorites, movieData])
+        );
       }
     } catch (err) {
       dispatch({ type: "SET_ERROR", payload: "Failed to update favorites." });

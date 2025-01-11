@@ -2,22 +2,26 @@ import React, { useContext } from "react";
 import Box from "./Box";
 import MovieList from "./MovieList";
 import { MovieContext } from "../context/MovieContext";
+import ClearFavoritesBtn from "./ClearFavoritesBtn";
 
 export default function Favorites({ onSelectMovie }) {
   const { state } = useContext(MovieContext);
-  const { favorites, movies } = state;
+  const { movies, favorites } = state;
 
-  const favoriteMovies = movies.filter((movie) =>
-    favorites.includes(movie.imdbID)
-  );
+  // const favoriteMovies = movies.filter(
+  //   (movie) => favorites.map((f) => f.id).includes(movie.imdbID) // Ensure this matches the stored data structure
+  // );
 
   return (
     <Box className="container mx-auto p-8 bg-gray-900 rounded-xl shadow-2xl my-6">
       <h1 className="text-3xl font-bold text-white mb-6">Favorite Movies</h1>
-      {favoriteMovies.length === 0 ? (
+      {favorites.length === 0 ? (
         <p className="text-white">No favorite movies found.</p>
       ) : (
-        <MovieList movies={favoriteMovies} onSelectMovie={onSelectMovie} />
+        <>
+          <MovieList onSelectMovie={onSelectMovie} isFavorites={true} />
+          <ClearFavoritesBtn />
+        </>
       )}
     </Box>
   );

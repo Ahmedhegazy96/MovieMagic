@@ -61,7 +61,10 @@ export default function MovieDetails({ onCloseMovie }) {
     <Box className="p-8 bg-gray-900 rounded-2xl shadow-2xl">
       <MovieDetailsContent movie={selectedMovie} />
       <div className="absolute top-4 right-4 flex space-x-4">
-        <FavoritesButton />
+        <FavoritesButton
+          selectedId={selectedMovie.imdbID}
+          movie={selectedMovie}
+        />
         <Button
           className="flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition bg-gray-600 hover:bg-gray-700 text-white text-2xl"
           onClick={onCloseMovie}

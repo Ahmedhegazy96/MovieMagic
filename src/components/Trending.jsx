@@ -11,35 +11,9 @@ export default function Trending({ onSelectMovie }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { state, dispatch } = useContext(MovieContext);
 
-  const { movies, isLoading, error } = state;
+  const { trendingMovies, isLoading, error } = state;
 
-  useEffect(() => {
-    const fetchTrendingMovies = async () => {
-      try {
-        dispatch({ type: "SET_LOADING", payload: true });
-        dispatch({ type: "SET_ERROR", payload: null });
-        const response = await fetch(
-          `https://www.omdbapi.com/?apikey=cad125ee&s=new&type=movie&y=2024`
-        );
-        const data = await response.json();
-        dispatch({ type: "SET_MOVIES", payload: data.Search });
-      } catch (err) {
-        dispatch({
-          type: "SET_ERROR",
-          payload: "Failed to fetch trending movies.",
-        });
-      } finally {
-        dispatch({ type: "SET_LOADING", payload: false });
-      }
-    };
-
-    fetchTrendingMovies();
-    return () => {
-      dispatch({ type: "SET_MOVIES", payload: [] });
-    };
-  }, [dispatch]);
-
-  const currentMovie = movies[currentSlide] || {};
+  const currentMovie = trendingMovies[currentSlide] || {};
 
   const handleScrollToSlider = () => {
     document
@@ -66,7 +40,7 @@ export default function Trending({ onSelectMovie }) {
         setCurrentSlide={setCurrentSlide}
         id="slick-slider"
       >
-        {movies.map((movie) => (
+        {trendingMovies.map((movie) => (
           <Movie
             key={movie.imdbID}
             movie={movie}

@@ -25,7 +25,7 @@ import { useKey } from "./hooks/useKey";
 const KEY = "cad125ee";
 function App() {
   const { state, dispatch } = useContext(MovieContext);
-  const { query } = state;
+  const { query, movies, favorites } = state;
   const [showComponent, setShowComponent] = useState(null);
 
   useScrollToTop();

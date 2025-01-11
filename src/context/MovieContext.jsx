@@ -7,9 +7,23 @@ const initialState = {
   movies: [],
   selectedId: null,
   selectedMovie: "",
+  trendingMovies: [],
+
   isLoading: false,
   error: null,
-  favorites: JSON.parse(localStorage.getItem("favorites")) || [],
+  favorites: [],
+};
+const getFavoritesFromStorage = () => {
+  const favoritesFromStorage = localStorage.getItem("favorites");
+  let parsedFavorites = [];
+  try {
+    parsedFavorites = favoritesFromStorage
+      ? JSON.parse(favoritesFromStorage)
+      : [];
+  } catch (error) {
+    console.error("Failed to parse favorites from localStorage.", error);
+  }
+  return parsedFavorites;
 };
 
 const movieReducer = (state, action) => {
@@ -29,11 +43,23 @@ const movieReducer = (state, action) => {
     case "SET_ERROR":
       return { ...state, error: action.payload };
     case "ADD_FAVORITE":
-      return { ...state, favorites: [...state.favorites, action.payload] };
+      if (!state.favorites.find((fav) => fav.id === action.payload.id)) {
+        return {
+          ...state,
+          favorites: [...state.favorites, action.payload],
+        };
+      }
     case "REMOVE_FAVORITE":
       return {
         ...state,
-        favorites: state.favorites.filter((id) => id !== action.payload),
+        favorites: state.favorites.filter(
+          (movie) => movie.id !== action.payload
+        ),
+      };
+    case "CLEAR_FAVORITES":
+      return {
+        ...state,
+        favorites: [],
       };
     default:
       return state;
@@ -41,7 +67,10 @@ const movieReducer = (state, action) => {
 };
 
 const MovieProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(movieReducer, initialState);
+  const [state, dispatch] = useReducer(movieReducer, {
+    ...initialState,
+    favorites: getFavoritesFromStorage(),
+  });
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(state.favorites));
   }, [state.favorites]);

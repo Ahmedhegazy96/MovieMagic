@@ -17,7 +17,9 @@ export default function Movie({
         <img
           src={movie.Poster}
           alt={`${movie.Title} poster`}
-          className={`w-full ${showDetails ? "h-200" : "h-128"} object-cover`}
+          className={`w-full ${
+            showDetails ? "object-cover" : "object-fit"
+          } h-64`}
         />
         {showDetails && (
           <div className="p-4">
