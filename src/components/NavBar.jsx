@@ -108,6 +108,7 @@ export default function NavBar({ onToggleComponent }) {
             onKeyPress={handleKeyPress}
             className="p-2 rounded bg-gray-700 text-white w-full md:w-auto"
             placeholder="Search for movies..."
+            id="input-search"
           />
           <button
             onClick={handleSearch}

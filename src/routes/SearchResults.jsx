@@ -43,7 +43,7 @@ export default function SearchResults({ onSelectMovie }) {
   }, [query, dispatch]);
 
   const handleRetry = () => {
-    inputEl.current.focus();
+    document.getElementById("input-search").focus();
     dispatch({ type: "SET_QUERY", payload: query });
   };
   return (
