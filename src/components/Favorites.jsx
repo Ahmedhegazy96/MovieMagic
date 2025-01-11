@@ -19,8 +19,8 @@ export default function Favorites({ onSelectMovie }) {
         <p className="text-white">No favorite movies found.</p>
       ) : (
         <>
-          <MovieList onSelectMovie={onSelectMovie} isFavorites={true} />
           <ClearFavoritesBtn />
+          <MovieList onSelectMovie={onSelectMovie} isFavorites={true} />
         </>
       )}
     </Box>

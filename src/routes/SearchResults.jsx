@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import Box from "../components/Box";
 import MovieList from "../components/MovieList";
 import { MovieContext } from "../context/MovieContext";
@@ -10,6 +10,7 @@ import SearchPrompt from "../components/SearchPrompt";
 export default function SearchResults({ onSelectMovie }) {
   const { state, dispatch } = useContext(MovieContext);
   const { query, movies, isLoading, error } = state;
+  const inputEl = useRef(null);
 
   useEffect(() => {
     dispatch({ type: "SET_ERROR", payload: null });
@@ -42,6 +43,7 @@ export default function SearchResults({ onSelectMovie }) {
   }, [query, dispatch]);
 
   const handleRetry = () => {
+    inputEl.current.focus();
     dispatch({ type: "SET_QUERY", payload: query });
   };
   return (
