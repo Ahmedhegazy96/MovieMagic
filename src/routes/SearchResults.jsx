@@ -1,7 +1,8 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
+import { MovieContext } from "../context/MovieContext";
+
 import Box from "../components/Box";
 import MovieList from "../components/MovieList";
-import { MovieContext } from "../context/MovieContext";
 import Spinner from "../components/Spinner";
 import ErrorMessage from "../components/ErrorMessage";
 import Button from "../components/Button";
@@ -10,11 +11,11 @@ import SearchPrompt from "../components/SearchPrompt";
 export default function SearchResults({ onSelectMovie }) {
   const { state, dispatch } = useContext(MovieContext);
   const { query, movies, isLoading, error } = state;
-  const inputEl = useRef(null);
 
   useEffect(() => {
     dispatch({ type: "SET_ERROR", payload: null });
   }, []);
+
   useEffect(() => {
     if (!query) return;
     const fetchSearchResults = async () => {
@@ -22,8 +23,11 @@ export default function SearchResults({ onSelectMovie }) {
         dispatch({ type: "SET_LOADING", payload: true });
         dispatch({ type: "SET_ERROR", payload: null });
         const response = await fetch(
-          `https://www.omdbapi.com/?apikey=cad125ee&s=${query}`
+          `https://www.omdbapi.com/?apikey=${
+            import.meta.env.VITE_APP_KEY
+          }&s=${query}`
         );
+
         const data = await response.json();
         if (data.Response === "False") {
           throw new Error(data.Error);
@@ -46,6 +50,7 @@ export default function SearchResults({ onSelectMovie }) {
     document.getElementById("input-search").focus();
     dispatch({ type: "SET_QUERY", payload: query });
   };
+
   return (
     <Box className="container mx-auto p-8 bg-gray-900 rounded-xl shadow-2xl my-6">
       {isLoading && <Spinner />}

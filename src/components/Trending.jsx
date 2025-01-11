@@ -1,17 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { MovieContext } from "../context/MovieContext";
+
 import Box from "./Box";
 import SlickSlider from "./SlickSlider";
 import TrendingMovie from "./TrendingMovie";
 import Button from "./Button";
-import { MovieContext } from "../context/MovieContext";
 import Movie from "./Movie";
 import Spinner from "./Spinner";
 
 export default function Trending({ onSelectMovie }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { state, dispatch } = useContext(MovieContext);
+  const { state } = useContext(MovieContext);
 
-  const { trendingMovies, isLoading, error } = state;
+  const { trendingMovies, isLoading } = state;
 
   const currentMovie = trendingMovies[currentSlide] || {};
 

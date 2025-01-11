@@ -6,10 +6,8 @@ const ClearFavoritesBtn = () => {
   const { dispatch } = useContext(MovieContext);
 
   const handleClearFavorites = () => {
-    // Clear local storage
     localStorage.removeItem("favorites");
 
-    // Dispatch the clear favorites action
     dispatch({ type: "CLEAR_FAVORITES" });
   };
 

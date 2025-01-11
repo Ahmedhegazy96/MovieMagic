@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useKey } from "../hooks/useKey";
-import Loader from "./Loader";
+import { useContext, useEffect } from "react";
+
 import Box from "./Box";
 import Spinner from "./Spinner";
 import Button from "./Button";
@@ -9,11 +8,9 @@ import MovieDetailsContent from "./MovieDetailsContent";
 
 import { MovieContext } from "../context/MovieContext";
 
-const KEY = "cad125ee";
-
 export default function MovieDetails({ onCloseMovie }) {
   const { state, dispatch } = useContext(MovieContext);
-  const { selectedId, selectedMovie, isLoading, error } = state;
+  const { selectedId, selectedMovie, isLoading } = state;
 
   useEffect(() => {
     if (!selectedId) return;
@@ -23,7 +20,9 @@ export default function MovieDetails({ onCloseMovie }) {
         dispatch({ type: "SET_LOADING", payload: true });
         dispatch({ type: "SET_ERROR", payload: null });
         const response = await fetch(
-          `https://www.omdbapi.com/?i=${selectedId}&apikey=${KEY}`
+          `https://www.omdbapi.com/?i=${selectedId}&apikey=${
+            import.meta.env.VITE_APP_KEY
+          }`
         );
         const data = await response.json();
 
@@ -45,16 +44,18 @@ export default function MovieDetails({ onCloseMovie }) {
 
     fetchMovieDetails();
   }, [selectedId, dispatch]);
+
   useEffect(() => {
     if (selectedMovie) {
       document.title = `Movie | ${selectedMovie.Title}`;
     }
-
     return () => {
       document.title = "MovieMagic";
     };
   }, [selectedMovie]);
+
   if (isLoading) return <Spinner />;
+
   if (!selectedMovie) return null;
 
   return (

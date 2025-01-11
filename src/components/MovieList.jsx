@@ -1,19 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import Movie from "./Movie";
-import Box from "./Box";
-import Spinner from "./Spinner";
-import MovieSearchDetails from "./MovieSearchDetails.jsx";
-import FavoritesButton from "./FavoritesButton.jsx";
+import { useContext } from "react";
 import { MovieContext } from "../context/MovieContext.jsx";
 
+import Box from "./Box";
+import MovieSearchDetails from "./MovieSearchDetails.jsx";
+import FavoritesButton from "./FavoritesButton.jsx";
+
 export default function MovieList({ onSelectMovie, isFavorites = false }) {
-  const { state, dispatch } = useContext(MovieContext);
+  const { state } = useContext(MovieContext);
   const {
-    query,
-    isLoading,
-    error,
     movies,
-    selectedId,
     favorites = Array.isArray(state.favorites) ? state.favorites : [],
   } = state;
 

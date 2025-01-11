@@ -1,7 +1,7 @@
 import React from "react";
 
-export default function MovieSearchDetails({ movie, onSelectMovie }) {
-  const { Title, Year, Poster, imdbID, imdbRating } = movie;
+export default function MovieSearchDetails({ movie }) {
+  const { Title, Year, Poster, imdbRating } = movie;
 
   return (
     <div className="grid grid-cols-[6rem_1fr] grid-rows-[auto_auto] gap-x-6 p-4 border-b border-gray-700 cursor-pointer transition-transform transform hover:scale-105 hover:bg-gray-800 hover:shadow-lg">

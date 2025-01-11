@@ -6,11 +6,7 @@ import ClearFavoritesBtn from "./ClearFavoritesBtn";
 
 export default function Favorites({ onSelectMovie }) {
   const { state } = useContext(MovieContext);
-  const { movies, favorites } = state;
-
-  // const favoriteMovies = movies.filter(
-  //   (movie) => favorites.map((f) => f.id).includes(movie.imdbID) // Ensure this matches the stored data structure
-  // );
+  const { favorites } = state;
 
   return (
     <Box className="container mx-auto p-8 bg-gray-900 rounded-xl shadow-2xl my-6">

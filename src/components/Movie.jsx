@@ -1,5 +1,4 @@
 import Box from "./Box";
-import MovieCardDetails from "./MovieSearchDetails.jsx";
 
 export default function Movie({
   movie,
@@ -8,6 +7,7 @@ export default function Movie({
   showDetails = true,
 }) {
   console.log(movie.imdbID);
+
   return (
     <Box
       className={`cursor-pointer bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-transform hover:scale-105 ${className}`}

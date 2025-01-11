@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { MovieContext } from "../context/MovieContext";
 
 export default function FavoritesButton({ className, selectedId, movie }) {
@@ -18,14 +18,17 @@ export default function FavoritesButton({ className, selectedId, movie }) {
         Year: movie.Year,
         imdbRating: movie.imdbRating,
       };
+
       if (isFavorite) {
         const updatedFavorites = favorites.filter(
           (fav) => fav.id !== movieData.id
         );
+
         dispatch({ type: "REMOVE_FAVORITE", payload: movieData.id });
         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
       } else {
         dispatch({ type: "ADD_FAVORITE", payload: movieData });
+
         localStorage.setItem(
           "favorites",
           JSON.stringify([...favorites, movieData])

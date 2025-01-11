@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function SearchPrompt() {
   return (
     <div className="text-center text-gray-300">
