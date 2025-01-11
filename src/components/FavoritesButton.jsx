@@ -42,18 +42,18 @@ export default function FavoritesButton({ className, selectedId, movie }) {
   return (
     <button
       onClick={handleToggleFavorite}
-      className={`flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition ${
+      className={`flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition z-30 md:w-10 md:h-10 ${
         isFavorite
           ? "bg-red-600 hover:bg-red-700"
           : "bg-gray-600 hover:bg-gray-700"
-      } text-white text-2xl ${className}`}
+      } text-white text-2xl md:text-xl ${className}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill={isFavorite ? "currentColor" : "none"}
         viewBox="0 0 24 24"
         stroke="currentColor"
-        className="w-6 h-6"
+        className="w-6 h-6 md:w-5 md:h-5"
       >
         <path
           strokeLinecap="round"

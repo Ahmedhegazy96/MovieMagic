@@ -67,7 +67,7 @@ export default function MovieDetails({ onCloseMovie }) {
           movie={selectedMovie}
         />
         <Button
-          className="flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition bg-gray-600 hover:bg-gray-700 text-white text-2xl"
+          className="flex items-center justify-center w-12 h-12 md:w-10 md:h-10 rounded-full shadow-lg transition bg-gray-600 hover:bg-gray-700 text-white text-2xl"
           onClick={onCloseMovie}
         >
           &times;

@@ -23,7 +23,9 @@ export default function Movie({
         />
         {showDetails && (
           <div className="p-4">
-            <h3 className="text-xl font-bold text-white">{movie.Title}</h3>
+            <h3 className="text-xl md:text-sm font-bold text-white">
+              {movie.Title}
+            </h3>
             <div className="mt-2 text-gray-400">
               <p className="flex items-center">
                 <span className="mr-2">🗓</span>

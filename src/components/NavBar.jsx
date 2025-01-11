@@ -103,30 +103,31 @@ export default function NavBar({ onToggleComponent }) {
 
   return (
     <nav className="bg-gray-800 p-4 shadow-lg  top-0 z-50 rounded-b-lg">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
-        <Logo />
-        <div className="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
+      <div className="max-w-screen-xl flex flex-col md:flex-row items-center justify-between mx-auto">
+        <Logo className="text-xl md:text-2xl" />
+        <div className="flex items-center space-x-2 w-full mt-4 md:w-auto">
           <input
             type="text"
             value={inputValue}
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
-            className="p-2 rounded bg-gray-700 text-white w-full md:w-auto"
+            className="p-2 rounded bg-gray-700 text-white w-full "
             placeholder="Search for movies..."
             id="input-search"
           />
           <button
             onClick={handleSearch}
-            className="p-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition w-full md:w-auto"
+            className="p-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition w-32"
           >
             Search
           </button>
-
+        </div>
+        <div className="flex space-x-4 mt-4 md:mt-0">
           <Button
             onClick={() => onToggleComponent("trending")}
             className="text-white text-lg"
           >
-            Trending Now!
+            Trending!
           </Button>
 
           <Button

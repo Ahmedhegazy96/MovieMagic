@@ -11,12 +11,12 @@ export default function MovieSearchDetails({ movie }) {
         className="w-full h-32 object-cover row-span-2 rounded"
       />
       <h3 className="text-xl font-bold text-white">{Title}</h3>
-      <div className="flex items-center gap-6">
-        <p className="text-gray-400">{Year}</p>
+      <div className="flex flex-col gap-2">
+        <p className="text-gray-400">Year: {Year}</p>
         {imdbRating && (
-          <p className="text-yellow-500 flex items-center gap-2">
-            <span className="material-icons">star</span>
-            {imdbRating}
+          <p className="flex items-center mt-1">
+            <span className="mr-2">⭐</span>
+            <span>{movie.imdbRating}</span>
           </p>
         )}
       </div>

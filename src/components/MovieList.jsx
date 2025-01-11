@@ -18,7 +18,7 @@ export default function MovieList({ onSelectMovie, isFavorites = false }) {
 
   return (
     <Box className="w-full max-w-6xl mx-auto p-6 bg-gray-900 rounded-lg shadow-lg">
-      <ul className="space-y-6 bg-gray-800 p-4 rounded-xl shadow-lg">
+      <ul className="space-y-6">
         {displayedMovies.length > 0
           ? displayedMovies.map((movie) => (
               <li
@@ -28,10 +28,12 @@ export default function MovieList({ onSelectMovie, isFavorites = false }) {
                   onSelectMovie(isFavorites ? movie.id : movie.imdbID)
                 }
               >
-                <MovieSearchDetails
-                  movie={movie}
-                  onSelectMovie={onSelectMovie}
-                />
+                <div className="flex-grow p-4">
+                  <MovieSearchDetails
+                    movie={movie}
+                    onSelectMovie={onSelectMovie}
+                  />
+                </div>
                 <FavoritesButton
                   selectedId={isFavorites ? movie.id : movie.imdbID}
                   movie={movie}
