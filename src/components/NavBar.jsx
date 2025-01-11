@@ -44,7 +44,7 @@ export default function NavBar({ onToggleComponent }) {
           dispatch({ type: "SET_LOADING", payload: true });
           dispatch({ type: "SET_ERROR", payload: null });
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
             { signal: controller.signal }
           );
           if (!res.ok) throw new Error("something went wrong");
