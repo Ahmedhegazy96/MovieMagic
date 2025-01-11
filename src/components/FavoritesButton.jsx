@@ -5,14 +5,14 @@ export default function FavoritesButton({ className, selectedId, movie }) {
   const { state, dispatch } = useContext(MovieContext);
   const { favorites } = state;
 
-  const isFavorite = favorites.some((favMovie) => favMovie.id === movie.id);
+  const isFavorite = favorites.some((favMovie) => favMovie.id === selectedId);
 
   const handleToggleFavorite = (e) => {
     e.stopPropagation();
 
     try {
       const movieData = {
-        id: movie.id,
+        id: selectedId,
         Title: movie.Title,
         Poster: movie.Poster,
         Year: movie.Year,
