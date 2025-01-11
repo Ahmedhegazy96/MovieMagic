@@ -35,7 +35,10 @@ export default function MovieList({ onSelectMovie, isFavorites = false }) {
                   movie={movie}
                   onSelectMovie={onSelectMovie}
                 />
-                <FavoritesButton selectedId={movie.imdbID} movie={movie} />
+                <FavoritesButton
+                  selectedId={isFavorites ? movie.id : movie.imdbID}
+                  movie={movie}
+                />
               </li>
             ))
           : null}

@@ -12,19 +12,18 @@ export default function FavoritesButton({ className, selectedId, movie }) {
 
     try {
       const movieData = {
-        id: selectedId,
+        id: selectedId || movie.imdbID,
         Title: movie.Title,
         Poster: movie.Poster,
         Year: movie.Year,
-
         imdbRating: movie.imdbRating,
       };
       if (isFavorite) {
-        dispatch({ type: "REMOVE_FAVORITE", payload: selectedId });
-        localStorage.setItem(
-          "favorites",
-          JSON.stringify(favorites.filter((fav) => fav.id !== selectedId))
+        const updatedFavorites = favorites.filter(
+          (fav) => fav.id !== movieData.id
         );
+        dispatch({ type: "REMOVE_FAVORITE", payload: movieData.id });
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
       } else {
         dispatch({ type: "ADD_FAVORITE", payload: movieData });
         localStorage.setItem(

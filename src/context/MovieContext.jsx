@@ -49,6 +49,7 @@ const movieReducer = (state, action) => {
           favorites: [...state.favorites, action.payload],
         };
       }
+      return state;
     case "REMOVE_FAVORITE":
       return {
         ...state,
